@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mozilla Concrete</title>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+<h1>Mozilla Concrete</h1>
+
+<p>Subscribe and get a free brick each month.</p>
+
+<form id="checkout" action="/purchase" method="post">
+  <div class="form-group">
+  <label>Credit card</label>
+  <input class="form-control" data-braintree-name="number" value="4111111111111111">
+</div>
+  <div class="form-group">
+  <label>Expiry</label>
+  <input class="form-control" data-braintree-name="expiration_date" value="10/20">
+</div>
+  <div class="form-group">
+  <div class="form-group">
+  <button type="submit" id="submit" value="Pay" disabled class="btn btn-success">Subscribe</button>
+  </div>
+</form>
+
+</div>
+
+<script type="text/javascript">
+$.getJSON('/token', function(data) {
+    braintree.setup(data.token, "custom", {
+      id: "checkout"
+    });
+    $('#checkout button[type=submit]').prop('disabled', false);
+})
+</script>
+</body>
+</html>

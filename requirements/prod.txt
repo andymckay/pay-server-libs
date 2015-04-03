@@ -1,0 +1,2 @@
+braintree==3.12.0
+requests==2.6.0

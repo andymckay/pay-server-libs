@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<body>
+<div class="container">
+<h1>Mozilla Concrete</h1>
+
+{% if success %}
+<p class="text-success"><b>Successful, yay.</b></p>
+{% else %}
+<p class="text-danger"><b>Something went wrong, boo!</b></p>
+{% endif %}
+<p><a class="btn btn-info" href="/">Try again</a></p>
+
+</div>
+</body>
+</html>
