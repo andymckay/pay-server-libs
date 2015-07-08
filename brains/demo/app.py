@@ -8,9 +8,10 @@ app = flask.Flask(__name__)
 
 braintree.Configuration.configure(
     braintree.Environment.Sandbox,
-    os.environ.get('BRAINTREE_MERCHANT_ID'),
-    os.environ.get('BRAINTREE_PUBLIC_KEY'),
-    os.environ.get('BRAINTREE_PRIVATE_KEY'),
+    'tbb7hb44zx28jhsh',
+    'r7ms2hhp9pnz8srd', #
+    '54b479bd09f312dc448375b1b3fe94d8' #os.environ.get('BRAINTREE_PUBLIC_KEY'),
+#    os.environ.get('BRAINTREE_PRIVATE_KEY'),
 )
 
 logging.captureWarnings(True)
@@ -47,12 +48,24 @@ def purchase():
     })
 
     assert result.is_success, result
-    print '[purchase] payment method:', result.payment_method.token
+    mapping = {
+        braintree.paypal_account.PayPalAccount: 'paypal',
+        braintree.credit_card.CreditCard: 'credit'
+    }
+    try:
+        payment_type = mapping[result.payment_method.__class__]
+    except KeyError:
+        raise ValueError('The payment account did not match a known type: {}'
+                         .format(result.payment_method))
+
+    print '[purchase] payment method type:', payment_type
+    print '[purchase] payment method token:', result.payment_method.token
 
     result = braintree.Subscription.create({
         'payment_method_token': result.payment_method.token,
-        'plan_id': 'concrete-brick',
-        'trial_period': False
+        'plan_id': 'past-due', #'concrete-brick',
+        'trial_period': False,
+        'id': str(uuid.uuid4())
     })
 
     assert result.is_success, result

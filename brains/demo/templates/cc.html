@@ -13,7 +13,7 @@
 
 <p>Subscribe and get a free brick each month.</p>
 
-<form id="checkout" action="/purchase" method="post">
+<form id="credit" action="/purchase" method="post">
   <div class="form-group">
   <label>Credit card</label>
   <input class="form-control" data-braintree-name="number" value="4111111111111111">
@@ -28,14 +28,30 @@
   </div>
 </form>
 
+<form id="paypal" action="/purchase" method="post">
+    <div class="form-group" id="paypal-login">
+    </div>
+    <div class="form-group">
+        <button type="submit" id="submit" value="Pay" disabled class="btn btn-success">Subscribe</button>
+    </div>
+</form>
+
 </div>
 
 <script type="text/javascript">
 $.getJSON('/token', function(data) {
     braintree.setup(data.token, "custom", {
-      id: "checkout"
+      id: "credit"
     });
-    $('#checkout button[type=submit]').prop('disabled', false);
+    $('#credit button[type=submit]').prop('disabled', false);
+
+    braintree.setup(data.token, "paypal", {
+      container: "paypal-login",
+      singleUse: false,
+      onPaymentMethodReceived: function (obj) {
+        $('#paypal button[type=submit]').prop('disabled', false);
+      }
+    });
 })
 </script>
 </body>
