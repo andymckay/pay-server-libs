@@ -9,9 +9,8 @@ app = flask.Flask(__name__)
 braintree.Configuration.configure(
     braintree.Environment.Sandbox,
     'tbb7hb44zx28jhsh',
-    'r7ms2hhp9pnz8srd', #
-    '54b479bd09f312dc448375b1b3fe94d8' #os.environ.get('BRAINTREE_PUBLIC_KEY'),
-#    os.environ.get('BRAINTREE_PRIVATE_KEY'),
+    os.environ.get('BRAINTREE_PUBLIC_KEY'),
+    os.environ.get('BRAINTREE_PRIVATE_KEY'),
 )
 
 logging.captureWarnings(True)
