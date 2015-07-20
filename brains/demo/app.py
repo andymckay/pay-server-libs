@@ -13,6 +13,7 @@ braintree.Configuration.configure(
     os.environ.get('BRAINTREE_PRIVATE_KEY'),
 )
 
+print 'Using public key:', os.environ.get('BRAINTREE_PUBLIC_KEY')
 logging.captureWarnings(True)
 log = logging.getLogger(__name__)
 
@@ -62,9 +63,10 @@ def purchase():
 
     result = braintree.Subscription.create({
         'payment_method_token': result.payment_method.token,
-        'plan_id': 'past-due', #'concrete-brick',
+        'plan_id': 'past-due',
         'trial_period': False,
-        'id': str(uuid.uuid4())
+        'merchant_account_id': 'v2dbvygzr9zcrqmg',
+        'id': str(uuid.uuid4()),
     })
 
     assert result.is_success, result
